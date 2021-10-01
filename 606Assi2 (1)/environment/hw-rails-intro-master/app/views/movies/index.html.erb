@@ -1,0 +1,46 @@
+<!--  This file is app/views/movies/index.html.erb -->
+<h2>All Movies</h2>
+
+<%#  Part 2: Start here... %>
+<p>Click check-boxes below to find the movies by rating! :) </p>
+<%= form_tag movies_path, method: :get do %>
+  Include:
+  <% for rating in @all_boxes  %>
+    <div class="form-check  form-check-inline">
+      <%= label_tag "ratings[#{rating}]", rating, class: 'form-check-label' %>
+      <%= check_box_tag "ratings[#{rating}]", class: 'form-check-input' %>
+    </div>
+  <% end %>
+  <div>
+    <%= submit_tag 'Filt', class: 'btn btn-warning' %>
+  </div>
+<% end %>
+<table class="table table-striped col-md-12" id="movies">
+  <thead>
+    <tr>
+      <th><%=link_to "Movie Title", :sort=>"title" %></th>
+      <th>Rating</th>
+      <th><%=link_to "Release Date", :sort=>"release_date" %></th>
+      <th>More Info</th>
+    </tr>
+  </thead>
+  <tbody> 
+    <% for movie in @movies %>
+      <tr>
+        <td>
+          <%= movie.title %>
+        </td>
+        <td>
+          <%= movie.rating %>
+        </td>
+        <td>
+          <%= movie.release_date %>
+        </td>
+        <td>
+          <%= link_to "More about #{movie.title}", movie_path(movie) %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+<%= link_to 'Add new movie', new_movie_path, :class => 'btn btn-primary' %>
